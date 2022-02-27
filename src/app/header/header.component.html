@@ -1,0 +1,16 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Tour Service</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a routerLink="/tour">Home</a></li>
+      <li class="active"><a routerLink="/view">Tour</a></li>
+      <li *ngIf="!service.isLogin" class="active"><a (click)="service.login()">Login</a></li>
+      <li *ngIf="service.isLogin" class="active"><a (click)="service.logout()">Logout</a></li>
+      <li *ngIf="service.isLogin" class="active"><a>Hello: {{service.name}}</a></li>
+    </ul>
+  </div>
+</nav>
+
+

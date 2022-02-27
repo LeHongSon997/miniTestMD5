@@ -1,0 +1,131 @@
+<div class="container">
+  <h2>Tours List</h2>
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create">
+    Create Tours
+  </button>
+  <form action="/search" method="post">
+    <div class="input-group mb-3">
+      <input class="form-control" name="search" placeholder="Search by name">
+      <button class="btn btn-success" type="submit">Search</button>
+    </div>
+  </form>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <td>STT</td>
+      <td>Name</td>
+      <td>Price</td>
+      <td>Edit</td>
+      <td>Delete</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let p of tours">
+      <td>{{p.id}}</td>
+      <td><a routerLink="/view/{{p.id}}">{{p.name}}</a></td>
+      <td>{{p.price}}</td>
+      <td>
+        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit" (click)="showEdit(p)">
+          Edit
+        </button>
+      </td>
+      <td>
+        <button type="button" class="btn btn-danger" (click)="delete(p.id)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- The Modal Edit-->
+<div class="modal" id="create">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Tour</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal Edit -->
+      <div class="modal-body">
+        <form (ngSubmit)="create()" [formGroup]="formCreate">
+          Nhập id
+          <input formControlName="id">
+          <br>
+          <br>
+          Nhập name
+          <input formControlName="name">
+          <p *ngIf="!formCreate?.get('name')?.valid" style="color: red">* không được nhập dưới 6 ký tự</p>
+          <br>
+          <br>
+          Nhập price
+          <input formControlName="price">
+          <br>
+          <br>
+          nhập mota
+          <input formControlName="description">
+          <br>
+
+          <button type="submit" class="btn btn-success">Save</button>
+        </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- The Modal Edit-->
+<div class="modal" id="edit">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Tour</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal Edit -->
+      <div class="modal-body">
+        <form #formEdit="ngForm" (ngSubmit)="edit(formEdit.value)">
+          Nhập id
+          <input [(ngModel)]="tour.id" name="id" readonly><br>
+          Nhập name
+          <input [(ngModel)]="tour.name" #name="ngModel"
+                 minlength="6" name="name">
+          <br>
+          <p *ngIf="!name.valid && name.touched" style="color: red">* không được nhập dưới 6 ký tự</p>
+          <br>
+          Nhập price
+          <input type="number" [(ngModel)]="tour.price" name="price" #price="ngModel"
+                 min="10"
+          >
+          <br>
+          <p *ngIf="!price.valid" style="color: red">* không được nhở hơn không</p>
+          <br>
+          Nhập mota
+          <input [(ngModel)]="tour.description" name="description" #description="ngModel"
+          minlength="10" ><br>
+          <br>
+          <p *ngIf="!description.valid" style="color: red">* Không được để trống</p>
+          <br>
+          <button type="submit" class="btn btn-success">Save</button>
+        </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
